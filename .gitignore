@@ -1,0 +1,6 @@
+# ignore .o and .tar files
+*.o
+*.tar*
+
+#ignore the compiled program, this will be changed to whatever we decide the name of the program will be
+Final_Project
