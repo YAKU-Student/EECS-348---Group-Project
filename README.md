@@ -17,4 +17,10 @@ This is the repository for our final project for EECS-348 (Software Engineering 
 > tables, and expression evaluation. You'll gain valuable skills in parsing, data structures,   
 > algorithm design, and software engineering principles.   
 
-## Members  
+## Installation   
+
+## Start Guide   
+
+## Documentation   
+
+## Members     
