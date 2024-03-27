@@ -1,6 +1,22 @@
-# ignore .o and .tar files
-*.o
-*.tar*
+# Ignore all
+*
 
-#ignore the compiled program, this will be changed to whatever we decide the name of the program will be
-Final_Project
+# Unignore all dirs
+!*/
+
+# Unignore all .cpp, .hpp, .h files 
+!*.cpp
+!*.hpp
+!*.h
+
+# Unignore .pdf, .docx, .txt, .md files
+!*.pdf
+!*.docx
+!*.txt
+!*.md
+
+# Unignore .gitignore
+!.gitignore
+
+# Unignore makefile
+!makefile
