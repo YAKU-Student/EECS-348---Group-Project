@@ -26,3 +26,12 @@ This is the repository for our final project for EECS-348 (Software Engineering 
 ## Documentation   
 
 ## Members     
+
+| Member           | Role                         | Email                   |
+| ---------------- | ---------------------------- | ----------------------- |
+| Alexander Phibbs | Project Lead, Developer      | NULL                    |
+| Caden LeCluyse   | Product Owner, Developer     | lecluyse20@gmail.com    |
+| Ceres            | Second Team Lead, Developer  | NULL                    | 
+| Theodora         | Meeting Secretary, Developer | NULL                    |
+| Justin           | Debugger, Developer          | NULL                    |
+| Cole             | Division of Tasks, Developer | NULL                    |
