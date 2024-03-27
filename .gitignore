@@ -19,4 +19,4 @@
 !.gitignore
 
 # Unignore makefile
-!makefile
+!*/makefile
