@@ -1,22 +1,6 @@
-# Ignore all
-*
-
-# Unignore all dirs
-!*/
-
-# Unignore all .cpp, .hpp, .h files 
-!*.cpp
-!*.hpp
-!*.h
-
-# Unignore .pdf, .docx, .txt, .md files
-!*.pdf
-!*.docx
-!*.txt
-!*.md
-
-# Unignore .gitignore
-!.gitignore
-
-# Unignore makefile
-!*/makefile
+.vscode
+/build
+.DS_STORE
+**.bak
+**.tmp
+**~
