@@ -29,9 +29,9 @@ This is the repository for our final project for EECS-348 (Software Engineering 
 
 | Member           | Role                         | Email                   |
 | ---------------- | ---------------------------- | ----------------------- |
-| Alexander Phibbs | Project Lead, Developer      | NULL                    |
+| Alexander Phibbs | Project Lead, Developer      | N/A                     |
 | Caden LeCluyse   | Product Owner, Developer     | lecluyse20@gmail.com    |
-| Ceres            | Second Team Lead, Developer  | NULL                    | 
-| Theodora         | Meeting Secretary, Developer | NULL                    |
-| Justin           | Debugger, Developer          | NULL                    |
-| Cole             | Division of Tasks, Developer | NULL                    |
+| Ceres Botkin     | Second Team Lead, Developer  | N/A                     | 
+| Theodora Okhagbuzo | Meeting Secretary, Developer | theo.ekp@gmail.com    |
+| Justin Daugherty | Debugger, Developer          | justin.darty03@gmail.com |
+| Cole Charpentier | Division of Tasks, Developer | c287c458@ku.edu         |
