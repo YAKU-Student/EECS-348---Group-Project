@@ -29,7 +29,7 @@ This is the repository for our final project for EECS-348 (Software Engineering 
 
 | Member           | Role                         | Email                   |
 | ---------------- | ---------------------------- | ----------------------- |
-| Alexander Phibbs | Project Lead, Developer      | N/A                     |
+| Alexander Phibbs | Project Lead, Developer      | alex.r.phibbs@gmail.com |
 | Caden LeCluyse   | Product Owner, Developer     | lecluyse20@gmail.com    |
 | Ceres Botkin     | Second Team Lead, Developer  | N/A                     | 
 | Theodora Okhagbuzo | Meeting Secretary, Developer | theo.ekp@gmail.com    |
