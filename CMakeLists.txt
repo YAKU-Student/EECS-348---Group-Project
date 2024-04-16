@@ -14,8 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(boolean_simulator)
 
 target_sources(boolean_simulator PRIVATE
-   # Cpp files go here, example:
-   # "src/main.cpp"
+    "src/main.cpp"
 )
 
 #Includes the header files from src
