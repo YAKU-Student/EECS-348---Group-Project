@@ -1,6 +1,6 @@
 #include <iostream>
 
-int programLoop() {
+[[nodiscard]] int programLoop() {
     std::string inputExpression;
     while (true) {
         std::cout << "Please enter your boolean expression (enter exit, quit, or q to exit the program): ";
