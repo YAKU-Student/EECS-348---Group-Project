@@ -27,9 +27,12 @@ int main(int argc, char* const argv[]) {
         return 1;
     }
 
+    // Potentially might not be const, depending how we actually parse the input
     const std::string expression = argv[1];
     if (expression == "-c" || expression == "--continuous") {
         return programLoop();
+    } else if (expression == "-v" || expression == "--version") {
+        std::cout << "Version: " << PROGRAM_VERSION << std::endl; 
     } else if (expression[0] == '-') {
         std::cerr << "Error:\n\t" << expression << " is an invalid flag.\n";
         return 1;
