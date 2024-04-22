@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 [[nodiscard]] int programLoop() {
     std::string inputExpression;
@@ -19,11 +20,11 @@
 int main(int argc, char* const argv[]) {
     if (argc > 2) {
         std::cerr << "Expected 1 argument, recieved " << argc - 1
-                  << ". Please pass in -c/--continuous or an expression.\n";
+                  << ". Please pass in -c/--continuous, -v/--version, or an expression.\n";
         return 1;
     } else if (argc == 1) {
-        std::cerr << "Expected an argument to be passed in. Either add the flag -c/--continuous or an expression to be "
-                  << "evaluated.\n";
+        std::cerr << "Expected an argument to be passed in. Either add the -c/--continuous flag, -v/--version flag, or an "
+                  << "expression to be evaluated.\n";
         return 1;
     }
 
@@ -32,7 +33,8 @@ int main(int argc, char* const argv[]) {
     if (expression == "-c" || expression == "--continuous") {
         return programLoop();
     } else if (expression == "-v" || expression == "--version") {
-        std::cout << "Version: " << PROGRAM_VERSION << std::endl; 
+        std::cout << "Version: " << PROGRAM_VERSION << std::endl;
+        return 0;
     } else if (expression[0] == '-') {
         std::cerr << "Error:\n\t" << expression << " is an invalid flag.\n";
         return 1;
