@@ -15,20 +15,9 @@ our AST.
 #include <string>
 #include <cstring>
 
-/* Generic Node and Tree Definitions*/
+#include "ast.h"
 
-// Node class which represents a node in a tree
-class Node {
-public:
-  Node(std::string);
-  // Print representation of the node
-  std::string p_key;
-  // Left and right child of the node
-  Node* left_child;
-  Node* right_child;
-  bool is_leaf();
-  
-};
+/* Generic Node and Tree Definitions*/
 
 // Node is initialized to be a leaf
 Node::Node(std::string p_key) {
@@ -37,26 +26,10 @@ Node::Node(std::string p_key) {
   this->right_child = NULL;
 }
 
-/*
-// Give print representation of node via p_key
-std::ostream& operator<<(std::ostream& out, Node &node) {
-  out << node.p_key;
-  return out;
-}
-*/
-
 // Returns true if the node is a leaf
 bool Node::is_leaf() {
   return ((this->left_child == NULL) && (this->right_child == NULL));
 }
-
-// Binary tree
-class BT {
-public:
-  // Root of our tree
-  Node* root;
-  BT(Node*);
-};
 
 // Set root of a BT
 BT::BT(Node* root) {
@@ -139,12 +112,6 @@ UnaryNode::UnaryNode(std::string key, UOperation operation)
   : Node::Node(key) {
   this->operation = operation;
 }
-
-// AST definition to represent a boolean expression
-class AST : public BT {
-public:
-  AST(Node* root);
-};
 
 AST::AST(Node* root)
   : BT::BT(root) {};
