@@ -32,8 +32,29 @@ bool Node::is_leaf() {
 }
 
 // Set root of a BT
-BT::BT(Node* root) {
-  this->root = root;
+BT::BT() {
+  this->root = NULL;
+}
+
+// Recursly destroy children then parent
+void _rec_destroy(Node* node) {
+  if (!(node->is_leaf())) {
+    if (node->left_child != NULL) {
+      _rec_destroy(node->left_child);
+    }
+
+    if (node ->right_child != NULL) {
+      _rec_destroy(node->right_child);
+    }
+  }
+
+  delete node;
+}
+
+// Destroy root
+BT::~BT() {
+  _rec_destroy(this->root);
+  this->root = NULL;
 }
 
 void _rec_print_post_order(Node* node) {
@@ -56,8 +77,8 @@ void _rec_print_post_order(Node* node) {
 }
 
 // Print the tree in post order
-void print_post_order(BT bt) {
-  _rec_print_post_order(bt.root);
+void BT::print_post_order() {
+  _rec_print_post_order(this->root);
 }
 
 /* AST Nodes Specification */
@@ -113,8 +134,7 @@ UnaryNode::UnaryNode(std::string key, UOperation operation)
   this->operation = operation;
 }
 
-AST::AST(Node* root)
-  : BT::BT(root) {};
+AST::AST() : BT::BT() {};
 
 // Make a boolean operation node based on key
 OperationNode* _make_operation_node(std::string key) {
@@ -202,8 +222,8 @@ Node* _build_node_prefix(std::string expr) {
 // Make a new tree from a boolean expression in prefix notation
 // Eg. !((!T)|F)&((T@F)$(!T)) in infix is
 //     !&|!TF$@TF!T in prefix
-AST build_ast_prefix(std::string expr) {
+void AST::build_ast_prefix(std::string expr) {
   static int i = 0;
   Node* root = _build_node_prefix(expr);
-  return AST(root);
+  this->root = root;
 }

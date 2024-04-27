@@ -5,7 +5,6 @@
 class Node {
 public:
   Node(std::string);
-  //~Node();
   // Print representation of the node
   std::string p_key;
   // Left and right child of the node
@@ -19,18 +18,16 @@ class BT {
 public:
   // Root of our tree
   Node* root;
-  BT(Node*);
-  //~BT();
+  BT();
+  ~BT();
+  void print_post_order();
 };
-
-void print_post_order(BT);
 
 // AST definition to represent a boolean expression
 class AST : public BT {
 public:
-  AST(Node* root);
+  AST();
+  void build_ast_prefix(std::string);
 };
-
-AST build_ast_prefix(std::string);
 
 #endif
