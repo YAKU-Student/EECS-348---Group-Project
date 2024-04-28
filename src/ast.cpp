@@ -197,6 +197,8 @@ UnaryNode* _make_unary_node(std::string key) {
     return new UnaryNode(key, operation);
 }
 
+static int i;
+
 Node* _build_node_prefix(std::string expr) {
     static int i;
     std::string fst_char = expr.substr(i, 1);
@@ -239,7 +241,7 @@ Node* _build_node_prefix(std::string expr) {
 // Eg. !((!T)|F)&((T@F)$(!T)) in infix is
 //     !&|!TF$@TF!T in prefix
 void AST::build_ast_prefix(std::string expr) {
-    static int i = 0;
+  static int i = 0;
     Node* root = _build_node_prefix(expr);
     this->root = root;
 }
