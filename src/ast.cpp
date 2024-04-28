@@ -83,36 +83,75 @@ void BT::print_post_order() { _rec_print_post_order(this->root); }
 enum Operation { AND, OR, NAND, XOR };
 
 class OperationNode : public Node {
-   public:
-    OperationNode(std::string, Operation);
-    Operation operation;
+public:
+  OperationNode(std::string, Operation);
+  Operation operation;
+  bool evaluate();
 };
 
 OperationNode::OperationNode(std::string key, Operation operation) : Node::Node(key) { this->operation = operation; }
 
+// Evaluate children and then evaluate with operation
+bool OperationNode::evaluate() {
+  bool lv = this->left_child->evaluate();
+  bool rv = this->right_child->evaluate();
+
+  switch(this->operation) {
+  case AND:
+    return lv && rv;
+  case OR:
+    return lv || rv;
+  case NAND:
+    return !(lv && rv);
+  case XOR:
+    return (!lv && rv) || (lv && !rv);
+  }
+
+  return true;
+}
+
 // Boolean node - represents a boolean value of true or false
 // Note: In final tree, this node should be a leaf
 class BooleanNode : public Node {
-   public:
-    BooleanNode(std::string, bool);
-    bool value;
+public:
+  BooleanNode(std::string, bool);
+  bool value;
+  bool evaluate();
 };
 
 BooleanNode::BooleanNode(std::string key, bool value) : Node::Node(key) { this->value = value; }
+
+// Return value to evaluate
+bool BooleanNode::evaluate() {
+  return this->value;
+}
 
 // Unary Node: Node which represents a unary operation
 // Note: Operand should be the left child with right child be NULL
 enum UOperation { NOT };
 
 class UnaryNode : public Node {
-   public:
-    UnaryNode(std::string, UOperation);
-    UOperation operation;
+public:
+  UnaryNode(std::string, UOperation);
+  UOperation operation;
+  bool evaluate();
 };
 
 UnaryNode::UnaryNode(std::string key, UOperation operation) : Node::Node(key) { this->operation = operation; }
 
-AST::AST() : BT::BT(){};
+// Evaluate left child and return unary value
+bool UnaryNode::evaluate() {
+  bool lv = this->left_child->evaluate();
+
+  switch (this->operation) {
+  case NOT:
+    return !lv;
+  }
+
+  return true;
+}
+
+AST::AST() : BT::BT() {};
 
 // Make a boolean operation node based on key
 OperationNode* _make_operation_node(std::string key) {
@@ -203,4 +242,9 @@ void AST::build_ast_prefix(std::string expr) {
     static int i = 0;
     Node* root = _build_node_prefix(expr);
     this->root = root;
+}
+
+// Evaluate AST node
+bool AST::evaluate() {
+  return this->root->evaluate();
 }
