@@ -1,3 +1,5 @@
+// Author: Caden LeCluyse
+
 #include <iostream>
 #include <string>
 
@@ -9,9 +11,6 @@ void evaluate_expression(const std::string& expression) {
         Parser expression_parser;
         const std::string prefix_expression = expression_parser.create_prefix_expression(expression);
         AST syntax_tree;
-        std::cout << "\n\nInput: " << expression;
-        std::cout << "\n\nPrefix: " << expression_parser.create_prefix_expression(expression);
-        std::cout << "\n\n";
         syntax_tree.build_ast_prefix(prefix_expression);
         const bool result = syntax_tree.evaluate();
         std::cout << "Result: ";
@@ -20,7 +19,7 @@ void evaluate_expression(const std::string& expression) {
         } else {
             std::cout << "False!\n\n";
         }
-    } catch (const std::runtime_error& error) {
+    } catch (const std::exception& error) {
         std::cerr << "\nError: " << error.what();
     }
 }
@@ -35,7 +34,7 @@ void evaluate_expression(const std::string& expression) {
             return 1;
         } else if (input_expression.empty()) {
             std::cerr << "\nError: Empty expression received!\n";
-         continue;
+            continue;
         } else if (input_expression == "quit" || input_expression == "exit" || input_expression == "q") {
             std::cout << "Exiting...\n" << std::endl;
             return 0;
@@ -56,7 +55,6 @@ int main(int argc, char* const argv[]) {
         return 1;
     }
 
-    // Potentially might not be const, depending how we actually parse the input
     const std::string expression = argv[1];
     if (expression == "-c" || expression == "--continuous") {
         return program_loop();
@@ -67,9 +65,7 @@ int main(int argc, char* const argv[]) {
         std::cerr << "\nError: " << expression << " is an invalid flag.\n";
         return 1;
     }
-
-    // Placeholder for whatever the actual function is
-    // doInput(expression);
+    evaluate_expression(expression);
 
     return 0;
 }
