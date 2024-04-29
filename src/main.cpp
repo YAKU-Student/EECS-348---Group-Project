@@ -9,9 +9,9 @@
 #include "ast.h"
 #include "parser.h"
 
-void evaluate_expression(const std::string& expression, std::vector<std::pair<std::string, std::string> >& history) {
+void evaluate_expression(const std::string& expression, auto& history) {
+    static Parser expression_parser;
     try {
-        Parser expression_parser;
         const std::string prefix_expression = expression_parser.create_prefix_expression(expression);
         AST syntax_tree;
         syntax_tree.build_ast_prefix(prefix_expression);
@@ -29,7 +29,7 @@ void evaluate_expression(const std::string& expression, std::vector<std::pair<st
     }
 }
 
-void print_history(const std::vector<std::pair<std::string, std::string> >& history) {
+void print_history(const auto& history) {
     std::ranges::for_each(history, [](const auto& expression_result) {
         std::cout << "Expression: " << expression_result.first << "\nResult: " << expression_result.second << "\n\n";
     });
