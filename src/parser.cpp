@@ -26,7 +26,7 @@ void Parser::error_checker() {
     } else if (is_operand(current_token) && is_operand(previous_token)) {
         throw std::runtime_error("Two consecutive operands detected: " + std::string(1, current_token) + " and " +
                                  std::string(1, previous_token) + "\n\n");
-    } 
+    }
 }
 
 [[noreturn]] void Parser::throw_invalid_character_error(const char token) {
@@ -40,6 +40,8 @@ void Parser::error_checker() {
 
 [[nodiscard]] std::string Parser::create_prefix_expression(const std::string& infix_expression) {
     std::string prefix_expression;
+    current_token = '\0';
+    previous_token = '\0';
     int open_parentheses = 0;
     int closed_parentheses = 0;
 
