@@ -16,6 +16,7 @@ add_executable(boolean_simulator)
 target_sources(boolean_simulator PRIVATE
     "src/main.cpp"
     "src/ast.cpp"
+    "src/parser.cpp"
 )
 
 #Includes the header files from src
