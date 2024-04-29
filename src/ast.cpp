@@ -152,7 +152,7 @@ bool UnaryNode::evaluate() {
 AST::AST() : BT::BT(){};
 
 // Make a boolean operation node based on key
-OperationNode* _make_operation_node(std::string key) {
+OperationNode* _make_operation_node(std::string& key) {
     // Get operation based on key
     Operation operation;
 
@@ -170,7 +170,7 @@ OperationNode* _make_operation_node(std::string key) {
 }
 
 // Make a boolean leaf node based on key
-BooleanNode* _make_boolean_node(std::string key) {
+BooleanNode* _make_boolean_node(std::string& key) {
     // Get value based on key
     bool value;
 
@@ -184,7 +184,7 @@ BooleanNode* _make_boolean_node(std::string key) {
 }
 
 // Make a unary node based on key
-UnaryNode* _make_unary_node(std::string key) {
+UnaryNode* _make_unary_node(std::string& key) {
     // Get unary operation based on key
     UOperation operation = NOT;
 
@@ -193,7 +193,7 @@ UnaryNode* _make_unary_node(std::string key) {
 
 static int i = 0;
 
-Node* _build_node_prefix(std::string expr) {
+Node* _build_node_prefix(const std::string& expr) {
     std::string fst_char = expr.substr(i, 1);
 
     // If character is a boolean, then it is a leaf and return that node
@@ -232,7 +232,7 @@ Node* _build_node_prefix(std::string expr) {
 // Make a new tree from a boolean expression in prefix notation
 // Eg. !((!T)|F)&((T@F)$(!T)) in infix is
 //     !&|!TF$@TF!T in prefix
-void AST::build_ast_prefix(std::string expr) {
+void AST::build_ast_prefix(const std::string& expr) {
     i = 0;
     Node* root = _build_node_prefix(expr);
     this->root = root;

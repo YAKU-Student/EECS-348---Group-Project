@@ -31,7 +31,7 @@ class BT {
 class AST : public BT {
    public:
     AST();
-    void build_ast_prefix(std::string);
+    void build_ast_prefix(const std::string&);
     bool evaluate();
 };
 

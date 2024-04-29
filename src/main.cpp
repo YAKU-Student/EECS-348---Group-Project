@@ -4,20 +4,26 @@
 #include "ast.h"
 #include "parser.h"
 
-void evaluate_expression(const std::string& expression) {
-    Parser expression_parser;
-    AST syntax_tree;
-    std::cout << "\n\nInput: " << expression;
-    std::cout << "\n\nPrefix: " << expression_parser.create_prefix_expression(expression);
-    std::cout << "\n\n";
-    syntax_tree.build_ast_prefix(expression_parser.create_prefix_expression(expression));
-    const bool result = syntax_tree.evaluate();
-    std::cout << "Result: ";
-    if (result) {
-        std::cout << "True!\n\n";
-    } else {
-        std::cout << "False!\n\n";
+bool evaluate_expression(const std::string& expression) {
+    try {
+        Parser expression_parser;
+        AST syntax_tree;
+        std::cout << "\n\nInput: " << expression;
+        std::cout << "\n\nPrefix: " << expression_parser.create_prefix_expression(expression);
+        std::cout << "\n\n";
+        syntax_tree.build_ast_prefix(expression_parser.create_prefix_expression(expression));
+        const bool result = syntax_tree.evaluate();
+        std::cout << "Result: ";
+        if (result) {
+            std::cout << "True!\n\n";
+        } else {
+            std::cout << "False!\n\n";
+        }
+    } catch (const std::exception& error) {
+        std::cerr << "Error: " << error.what();
+        return false;
     }
+    return true;
 }
 
 [[nodiscard]] int program_loop() {
@@ -28,11 +34,16 @@ void evaluate_expression(const std::string& expression) {
         if (!std::getline(std::cin, input_expression)) {
             std::cerr << "Unknown error ocurred in recieving input. Aborting...\n";
             return 1;
+        } else if (input_expression.empty()) {
+            std::cerr << "Error: Empty expression recieved!\n";
+            return 1;
         } else if (input_expression == "quit" || input_expression == "exit" || input_expression == "q") {
             std::cout << "Exiting..." << std::endl;
             return 0;
         }
-        evaluate_expression(input_expression);
+        if (!evaluate_expression(input_expression)) {
+            return 1;
+        }
     }
 }
 
@@ -56,7 +67,7 @@ int main(int argc, char* const argv[]) {
         std::cout << "Version: " << PROGRAM_VERSION << std::endl;
         return 0;
     } else if (expression[0] == '-') {
-        std::cerr << "Error:\n\t" << expression << " is an invalid flag.\n";
+        std::cerr << "Error: " << expression << " is an invalid flag.\n";
         return 1;
     }
 
