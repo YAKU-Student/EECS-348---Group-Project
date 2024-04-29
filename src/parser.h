@@ -17,6 +17,7 @@ class Parser {
     void check_parentheses(std::string::const_reverse_iterator itr, std::string::const_reverse_iterator string_end);
     std::stack<char> operator_stack;
     char current_token;
+    char previous_token;
 };
 
 #endif
