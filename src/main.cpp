@@ -23,13 +23,14 @@ int main(int argc, char* const argv[]) {
                   << ". Please pass in -c/--continuous, -v/--version, or an expression.\n";
         return 1;
     } else if (argc == 1) {
-        std::cerr << "Expected an argument to be passed in. Either add the -c/--continuous flag, -v/--version flag, or an "
-                  << "expression to be evaluated.\n";
+        std::cerr
+            << "Expected an argument to be passed in. Either add the -c/--continuous flag, -v/--version flag, or an "
+            << "expression to be evaluated.\n";
         return 1;
     }
 
     // Potentially might not be const, depending how we actually parse the input
-    const std::string expression = argv[1];
+    std::string expression = argv[1];
     if (expression == "-c" || expression == "--continuous") {
         return programLoop();
     } else if (expression == "-v" || expression == "--version") {

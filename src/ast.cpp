@@ -22,24 +22,24 @@ our AST.
 // Node is initialized to be a leaf
 Node::Node(std::string p_key) {
     this->p_key = p_key;
-    this->left_child = NULL;
-    this->right_child = NULL;
+    this->left_child = nullptr;
+    this->right_child = nullptr;
 }
 
 // Returns true if the node is a leaf
-bool Node::is_leaf() { return ((this->left_child == NULL) && (this->right_child == NULL)); }
+bool Node::is_leaf() { return ((this->left_child == nullptr) && (this->right_child == nullptr)); }
 
 // Set root of a BT
-BT::BT() { this->root = NULL; }
+BT::BT() { this->root = nullptr; }
 
 // Recursly destroy children then parent
 void _rec_destroy(Node* node) {
     if (!(node->is_leaf())) {
-        if (node->left_child != NULL) {
+        if (node->left_child != nullptr) {
             _rec_destroy(node->left_child);
         }
 
-        if (node->right_child != NULL) {
+        if (node->right_child != nullptr) {
             _rec_destroy(node->right_child);
         }
     }
@@ -50,7 +50,7 @@ void _rec_destroy(Node* node) {
 // Destroy root
 BT::~BT() {
     _rec_destroy(this->root);
-    this->root = NULL;
+    this->root = nullptr;
 }
 
 void _rec_print_post_order(Node* node) {
@@ -61,11 +61,11 @@ void _rec_print_post_order(Node* node) {
     }
 
     // Print left and right child and then key of the current node
-    if (node->left_child != NULL) {
+    if (node->left_child != nullptr) {
         _rec_print_post_order(node->left_child);
     }
 
-    if (node->right_child != NULL) {
+    if (node->right_child != nullptr) {
         _rec_print_post_order(node->right_child);
     }
 
@@ -83,75 +83,73 @@ void BT::print_post_order() { _rec_print_post_order(this->root); }
 enum Operation { AND, OR, NAND, XOR };
 
 class OperationNode : public Node {
-public:
-  OperationNode(std::string, Operation);
-  Operation operation;
-  bool evaluate();
+   public:
+    OperationNode(std::string, Operation);
+    Operation operation;
+    bool evaluate();
 };
 
 OperationNode::OperationNode(std::string key, Operation operation) : Node::Node(key) { this->operation = operation; }
 
 // Evaluate children and then evaluate with operation
 bool OperationNode::evaluate() {
-  bool lv = this->left_child->evaluate();
-  bool rv = this->right_child->evaluate();
+    bool lv = this->left_child->evaluate();
+    bool rv = this->right_child->evaluate();
 
-  switch(this->operation) {
-  case AND:
-    return lv && rv;
-  case OR:
-    return lv || rv;
-  case NAND:
-    return !(lv && rv);
-  case XOR:
-    return (!lv && rv) || (lv && !rv);
-  }
+    switch (this->operation) {
+        case AND:
+            return lv && rv;
+        case OR:
+            return lv || rv;
+        case NAND:
+            return !(lv && rv);
+        case XOR:
+            return (!lv && rv) || (lv && !rv);
+    }
 
-  return true;
+    return true;
 }
 
 // Boolean node - represents a boolean value of true or false
 // Note: In final tree, this node should be a leaf
 class BooleanNode : public Node {
-public:
-  BooleanNode(std::string, bool);
-  bool value;
-  bool evaluate();
+   public:
+    BooleanNode(std::string, bool);
+    bool value;
+    bool evaluate();
 };
 
 BooleanNode::BooleanNode(std::string key, bool value) : Node::Node(key) { this->value = value; }
 
 // Return value to evaluate
-bool BooleanNode::evaluate() {
-  return this->value;
-}
+bool BooleanNode::evaluate() { return this->value; }
 
 // Unary Node: Node which represents a unary operation
-// Note: Operand should be the left child with right child be NULL
+// Note: Operand should be the left child with right child be nullptr
 enum UOperation { NOT };
 
 class UnaryNode : public Node {
-public:
-  UnaryNode(std::string, UOperation);
-  UOperation operation;
-  bool evaluate();
+   public:
+    UnaryNode(std::string, UOperation);
+    UOperation operation;
+    bool evaluate();
 };
 
 UnaryNode::UnaryNode(std::string key, UOperation operation) : Node::Node(key) { this->operation = operation; }
 
 // Evaluate left child and return unary value
 bool UnaryNode::evaluate() {
-  bool lv = this->left_child->evaluate();
+    bool lv = this->left_child->evaluate();
 
-  switch (this->operation) {
-  case NOT:
-    return !lv;
-  }
+    switch (this->operation) {
+        case NOT:
+            return !lv;
+    }
 
-  return true;
+    return true;
 }
 
-AST::AST() : BT::BT() {};
+AST::AST() : BT::BT(){};
 
 // Make a boolean operation node based on key
 OperationNode* _make_operation_node(std::string key) {
@@ -188,21 +186,15 @@ BooleanNode* _make_boolean_node(std::string key) {
 // Make a unary node based on key
 UnaryNode* _make_unary_node(std::string key) {
     // Get unary operation based on key
-    UOperation operation;
-
-    if (key == "!") {
-        operation = NOT;
-    }
+    UOperation operation = NOT;
 
     return new UnaryNode(key, operation);
 }
 
-static int i;
+static int i = 0;
 
 Node* _build_node_prefix(std::string expr) {
-    static int i;
     std::string fst_char = expr.substr(i, 1);
-    int size = expr.size();
 
     // If character is a boolean, then it is a leaf and return that node
     if ((fst_char == "T") || (fst_char == "F")) {
@@ -226,7 +218,7 @@ Node* _build_node_prefix(std::string expr) {
 
     // Attach both left and right nodes
     Node* left_node = _build_node_prefix(expr);
-    Node* right_node = NULL;
+    Node* right_node = nullptr;
 
     if (!(is_unary)) {
         right_node = _build_node_prefix(expr);
@@ -241,12 +233,10 @@ Node* _build_node_prefix(std::string expr) {
 // Eg. !((!T)|F)&((T@F)$(!T)) in infix is
 //     !&|!TF$@TF!T in prefix
 void AST::build_ast_prefix(std::string expr) {
-  static int i = 0;
+    i = 0;
     Node* root = _build_node_prefix(expr);
     this->root = root;
 }
 
 // Evaluate AST node
-bool AST::evaluate() {
-  return this->root->evaluate();
-}
+bool AST::evaluate() { return this->root->evaluate(); }
