@@ -45,6 +45,11 @@ void Parser::error_checker() {
     int open_parentheses = 0;
     int closed_parentheses = 0;
 
+    // Check if the string is only white space
+    if (std::ranges::all_of(infix_expression, isspace)) {
+        throw std::runtime_error("Expression contains only spaces!\n\n");
+    }
+
     // Traverse the string in reverse
     for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
         // Ignore white space
