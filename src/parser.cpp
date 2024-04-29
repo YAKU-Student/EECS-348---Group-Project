@@ -11,7 +11,7 @@
 [[nodiscard]] bool Parser::is_operand(const char token) const noexcept { return (token == 'T' || token == 'F'); }
 
 [[nodiscard]] bool Parser::is_operator(const char token) const noexcept {
-    return (token == '&' || token == '|' || token == '!' || token == '@' || token == '$');
+    return (token == '&' || token == '|' || token == '@' || token == '$');
 }
 
 [[nodiscard]] bool Parser::is_not(const char token) const noexcept { return token == '!'; }
@@ -26,6 +26,14 @@ void Parser::error_checker() {
     } else if (is_operand(current_token) && is_operand(previous_token)) {
         throw std::runtime_error("Two consecutive operands detected: " + std::string(1, current_token) + " and " +
                                  std::string(1, previous_token) + "\n\n");
+    } else if (is_not(current_token) &&
+               (is_operand(previous_token) || is_operator(previous_token) || previous_token == ')')) {
+        throw std::runtime_error("NOT applied after value!\n\n");
+
+        // Check if we are missing an operator 
+    } else if ((current_token == ')' && is_operand(previous_token)) ||
+               (is_operand(current_token) && previous_token == '(')) {
+        throw std::runtime_error("Missing operator!\n\n");
     }
 }
 
@@ -33,7 +41,7 @@ void Parser::error_checker() {
     if (isalnum(token)) {
         throw std::runtime_error("Expected T or F, received: " + std::string(1, token) + "\n\n");
     } else if (token == ']' || token == '[') {
-        throw std::runtime_error("Invalid use of brackets detected! Just use parentheses please\n\n");
+        throw std::runtime_error("Invalid use of brackets detected! Just use parentheses please.\n\n");
     }
     throw std::runtime_error("Expected &, |, !, @, $, received: " + std::string(1, token) + "\n\n");
 }
@@ -45,9 +53,11 @@ void Parser::error_checker() {
     int open_parentheses = 0;
     int closed_parentheses = 0;
 
-    // Check if the string is only white space
+    // Check if the string is only white space, or if it ends with NOT
     if (std::ranges::all_of(infix_expression, isspace)) {
         throw std::runtime_error("Expression contains only spaces!\n\n");
+    } else if (*infix_expression.rbegin() == '!') {
+        throw std::runtime_error("Expression ends with NOT!\n\n");
     }
 
     // Traverse the string in reverse
@@ -85,6 +95,8 @@ void Parser::error_checker() {
             // Pop the closing parentheses off the stack
             if (!operator_stack.empty()) {
                 operator_stack.pop();
+            } else {
+                throw std::runtime_error("Missing closing parentheses!\n\n");
             }
         } else {
             throw_invalid_character_error(current_token);
@@ -92,9 +104,7 @@ void Parser::error_checker() {
         previous_token = current_token;
     }
 
-    if (open_parentheses > closed_parentheses) {
-        throw std::runtime_error("Missing closing parentheses!\n\n");
-    } else if (open_parentheses < closed_parentheses) {
+    if (open_parentheses < closed_parentheses) {
         throw std::runtime_error("Missing open parentheses!\n\n");
     }
 

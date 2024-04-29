@@ -12,6 +12,7 @@
 void evaluate_expression(const std::string& expression, auto& history) {
     static Parser expression_parser;
     try {
+        // Create the prefix expression and then build the tree
         const std::string prefix_expression = expression_parser.create_prefix_expression(expression);
         AST syntax_tree;
         syntax_tree.build_ast_prefix(prefix_expression);
@@ -47,7 +48,7 @@ void print_history(const auto& history) {
             return 1;
         } else if (input_expression == "history") {
             if (program_history.empty()) {
-                std::cerr << "You haven't evaluated any expressions yet!\n";
+                std::cerr << "You haven't evaluated any expressions yet!\n\n";
             } else {
                 print_history(program_history);
             }
@@ -67,12 +68,13 @@ void print_history(const auto& history) {
 int main(int argc, char* const argv[]) {
     if (argc > 2) {
         std::cerr << "Expected 1 argument, received " << argc - 1
-                  << ". Please pass in -c/--continuous, -v/--version, or an expression.\n";
+                  << ". Please pass in -c/--continuous, -v/--version, or an expression.\n"
+                  << "Make sure to wrap the expression in quotes.\n\n";
         return 1;
     } else if (argc == 1) {
         std::cerr
             << "Expected an argument to be passed in. Either add the -c/--continuous flag, -v/--version flag, or an "
-            << "expression to be evaluated.\n";
+            << "expression to be evaluated.\n\n";
         return 1;
     }
 
@@ -87,6 +89,9 @@ int main(int argc, char* const argv[]) {
         std::cerr << "\nError: " << expression << " is an invalid flag.\n";
         return 1;
     }
+
+    // Unnecessary adding to the program history here, but I didn't feel the need to function overload as its a
+    // completely negligable performance hit
     evaluate_expression(expression, program_history);
 
     return 0;
