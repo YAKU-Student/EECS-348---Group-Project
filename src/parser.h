@@ -15,6 +15,8 @@ class Parser {
     [[nodiscard]] bool is_operator(const char token) const noexcept;
     [[nodiscard]] bool is_not(const char token) const noexcept;
     [[noreturn]] void throw_invalid_character_error(const char token);
+    void check_leading(const std::string& infix_expression);
+    void check_trailing(const std::string& infix_expression);
     void error_checker();
     std::stack<char> operator_stack;
     char current_token;

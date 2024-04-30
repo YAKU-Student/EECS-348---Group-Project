@@ -16,6 +16,37 @@
 
 [[nodiscard]] bool Parser::is_not(const char token) const noexcept { return token == '!'; }
 
+void Parser::check_leading(const std::string& infix_expression) {
+    for (const auto i : infix_expression) {
+        if (isspace(i)) {
+            continue;
+        } else if (is_operator(i)) {
+            throw std::runtime_error("Expression begins with an operator\n\n!");
+        } else if (i == ')') {
+            throw std::runtime_error("Expression begins with closed parentheses!\n\n");
+        } else {
+            break;
+        }
+    }
+}
+
+void Parser::check_trailing(const std::string& infix_expression) {
+    // I originally was just checking for the last value, but then I realized white space messed it all up
+    for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
+        if (isspace(*itr)) {
+            continue;
+        } else if (is_not(*itr)) {
+            throw std::runtime_error("Expression ends with NOT!\n\n");
+        } else if (is_operator(*itr)) {
+            throw std::runtime_error("Expression ends with an operator!\n\n");
+        } else if (*itr == '(') {
+            throw std::runtime_error("Expression ends with open parentheses!\n\n");
+        } else {
+            break;
+        }
+    }
+}
+
 void Parser::error_checker() {
     // Checks for empty parentheses, consecutive operands and operators
     if (current_token == '(' && previous_token == ')') {
@@ -30,8 +61,8 @@ void Parser::error_checker() {
         throw std::runtime_error("NOT applied after value!\n\n");
 
         // Check if we are missing an operator
-    } else if (((current_token == ')' && is_operand(previous_token)) ||
-                (is_operand(current_token) && previous_token == '(')) ||
+    } else if ((current_token == ')' && is_operand(previous_token)) ||
+                (is_operand(current_token) && (previous_token == '(' || is_not(previous_token))) ||
                (current_token == ')' && previous_token == '(')) {
         throw std::runtime_error("Missing operator!\n\n");
 
@@ -62,34 +93,8 @@ void Parser::error_checker() {
     if (std::ranges::all_of(infix_expression, isspace)) {
         throw std::runtime_error("Expression contains only spaces!\n\n");
     }
-
-    // Check leading and trailing characters
-    // I originally was just checking for the last value, but then I realized white space messed it all up
-    for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
-        if (isspace(*itr)) {
-            continue;
-        } else if (is_not(*itr)) {
-            throw std::runtime_error("Expression ends with NOT!\n\n");
-        } else if (is_operator(*itr)) {
-            throw std::runtime_error("Expression ends with an operator!\n\n");
-        } else if (*itr == '(') {
-            throw std::runtime_error("Expression ends with open parentheses!\n\n");
-        } else {
-            break;
-        }
-    }
-
-    for (const auto i : infix_expression) {
-        if (isspace(i)) {
-            continue;
-        } else if (is_operator(i)) {
-            throw std::runtime_error("Expression begins with an operator\n\n!");
-        } else if (i == ')') {
-            throw std::runtime_error("Expression begins with closed parentheses!\n\n");
-        } else {
-            break;
-        }
-    }
+    check_leading(infix_expression);
+    check_trailing(infix_expression);
 
     // Traverse the string in reverse
     for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
