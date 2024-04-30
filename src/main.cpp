@@ -8,6 +8,7 @@
 
 #include "ast.h"
 #include "parser.h"
+#include "version.hpp"
 
 void evaluate_expression(const std::string& expression, auto& history) {
     static Parser expression_parser;
@@ -83,7 +84,8 @@ int main(int argc, char* const argv[]) {
     if (expression == "-c" || expression == "--continuous") {
         return program_loop(program_history);
     } else if (expression == "-v" || expression == "--version") {
-        std::cout << "Version: " << PROGRAM_VERSION << std::endl;
+        std::cout << "Version: " << PROGRAM_VERSION_MAJOR << "." << PROGRAM_VERSION_MINOR << "."
+                  << PROGRAM_VERSION_PATCH << "\n\n";
         return 0;
     } else if (expression[0] == '-') {
         std::cerr << "\nError: " << expression << " is an invalid flag.\n";

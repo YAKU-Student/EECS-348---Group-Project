@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.28)
-project(boolean_simulator VERSION 1.0.0)
+cmake_minimum_required(VERSION 3.21)
+project(boolean_simulator)
 
 # Add warnings
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -21,7 +21,5 @@ target_sources(boolean_simulator PRIVATE
 
 #Includes the header files from src
 target_include_directories(boolean_simulator PUBLIC "src")
-
-target_compile_definitions(boolean_simulator PUBLIC PROGRAM_VERSION="${PROJECT_VERSION}")
 
 #Use this command to build: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build && make -C build
