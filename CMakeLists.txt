@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(boolean_simulator VERSION 0.1.0)
+project(boolean_simulator VERSION 1.0.0)
 
 # Add warnings
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")

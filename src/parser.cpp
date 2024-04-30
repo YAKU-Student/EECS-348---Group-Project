@@ -30,10 +30,15 @@ void Parser::error_checker() {
                (is_operand(previous_token) || is_operator(previous_token) || previous_token == ')')) {
         throw std::runtime_error("NOT applied after value!\n\n");
 
-        // Check if we are missing an operator 
+        // Check if we are missing an operator
     } else if ((current_token == ')' && is_operand(previous_token)) ||
                (is_operand(current_token) && previous_token == '(')) {
         throw std::runtime_error("Missing operator!\n\n");
+
+        // Check if we are missing an operand
+    } else if ((current_token == '(' && is_operator(previous_token)) ||
+               (is_operator(current_token) && previous_token == ')')) {
+        throw std::runtime_error("Missing an operand!\n\n");
     }
 }
 
@@ -53,11 +58,37 @@ void Parser::error_checker() {
     int open_parentheses = 0;
     int closed_parentheses = 0;
 
-    // Check if the string is only white space, or if it ends with NOT
+    // Check if the string is only white space
     if (std::ranges::all_of(infix_expression, isspace)) {
         throw std::runtime_error("Expression contains only spaces!\n\n");
-    } else if (*infix_expression.rbegin() == '!') {
-        throw std::runtime_error("Expression ends with NOT!\n\n");
+    }
+
+    // Check leading and trailing characters
+    // I originally was just checking for the last value, but then I realized white space messed it all up
+    for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
+        if (isspace(*itr)) {
+            continue;
+        } else if (is_not(*itr)) {
+            throw std::runtime_error("Expression ends with NOT!\n\n");
+        } else if (is_operator(*itr)) {
+            throw std::runtime_error("Expression ends with an operator!\n\n");
+        } else if (*itr == '(') {
+            throw std::runtime_error("Expression ends with open parentheses!\n\n");
+        } else {
+            break;
+        }
+    }
+
+    for (const auto i : infix_expression) {
+        if (isspace(i)) {
+            continue;
+        } else if (is_operator(i)) {
+            throw std::runtime_error("Expression begins with an operator\n\n!");
+        } else if (i == ')') {
+            throw std::runtime_error("Expression begins with closed parentheses!\n\n");
+        } else {
+            break;
+        }
     }
 
     // Traverse the string in reverse
