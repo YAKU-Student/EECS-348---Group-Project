@@ -26,13 +26,13 @@ void Parser::error_checker() {
     } else if (is_operand(current_token) && is_operand(previous_token)) {
         throw std::runtime_error("Two consecutive operands detected: " + std::string(1, current_token) + " and " +
                                  std::string(1, previous_token) + "\n\n");
-    } else if (is_not(current_token) &&
-               (is_operator(previous_token) || previous_token == ')')) {
+    } else if (is_not(current_token) && (is_operator(previous_token) || previous_token == ')')) {
         throw std::runtime_error("NOT applied after value!\n\n");
 
         // Check if we are missing an operator
-    } else if ((current_token == ')' && is_operand(previous_token)) ||
-               (is_operand(current_token) && previous_token == '(')) {
+    } else if (((current_token == ')' && is_operand(previous_token)) ||
+                (is_operand(current_token) && previous_token == '(')) ||
+               (current_token == ')' && previous_token == '(')) {
         throw std::runtime_error("Missing operator!\n\n");
 
         // Check if we are missing an operand
