@@ -17,13 +17,125 @@ This is the repository for our final project for EECS-348 (Software Engineering 
 > tables, and expression evaluation. You'll gain valuable skills in parsing, data structures,   
 > algorithm design, and software engineering principles.   
 
-## Dependencies   
+## Quick Links   
+
+- [Installation](#installation)
+- [Quickstart Guide](#start-guide)
+  * [Flags](#flags)
+- [Build from Source](#building-from-source)
+  * [Dependencies](#required-dependencies)
+  * [Linux](#linux)
+  * [macOS](#macos)
+  * [Windows](#windows)
+- [Members](#members)
 
 ## Installation   
 
+This program requires [building from source](#building-from-source). You can download the latest version from the [release page](https://github.com/YAKU-Student/EECS-348---Group-Project/releases).    
+
 ## Start Guide   
 
-## Documentation   
+Below are examples of general program usage. For a more in-depth look, please look at the User Manual.    
+
+```console
+user@archlinux:~$ boolean_simulator "T & F"
+Result: False!
+
+user@archlinux:~$ boolean_simulator -c "T & F"
+Expected 1 argument, received 2. Please pass in -c/--continuous, -v/--version, or an expression.
+Make sure to wrap the expression in quotes.
+
+user@archlinux:~$ boolean_simulator -c
+Please enter your boolean expression, or enter history to see all prior evaluated expressions (enter exit, quit, or q to exit the program): T & F
+Result: False!
+
+Please enter your boolean expression, or enter history to see all prior evaluated expressions (enter exit, quit, or q to exit the program): T @ F
+Result: True!
+
+Please enter your boolean expression, or enter history to see all prior evaluated expressions (enter exit, quit, or q to exit the program): (T | F) $ (F & T)
+Result: True!
+
+Please enter your boolean expression, or enter history to see all prior evaluated expressions (enter exit, quit, or q to exit the program): history
+Expression: T & F
+Result: False!
+
+Expression: T @ F
+Result: True!
+
+Expression: (T | F) $ (F & T)
+Result: True!
+
+Please enter your boolean expression, or enter history to see all prior evaluated expressions (enter exit, quit, or q to exit the program): quit
+Exiting...
+```
+
+### Flags
+
+* Without any flags, the program will expect a boolean expression as the input. For example: `boolean_simulator "T & F"`.
+* With the `-c` or `--continuous` flag, the program will run in continuous mode. The user will be prompted for boolean expressions to evaluate until exiting the program by typing `exit`, `quit`, or `q`. Passing in any other arguments along with `-c` will result in an error and the program will not run.
+* With the `-v` or `--version` flag. The program simply displays the version information of the program.    
+
+## Building from source
+
+### Required dependencies
+
+- A valid c++ compiler, we recommend [clang++](https://clang.llvm.org/), but you can use [g++](https://gcc.gnu.org/)   
+  - [LLVM](https://www.llvm.org/)
+    * [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+    * [clang++](https://clang.llvm.org/)
+- [CMake](https://cmake.org/)
+
+### Linux
+
+Dependencies    
+
+```bash
+sudo apt-get install cmake
+sudo apt install clang
+```
+
+Build    
+
+```bash
+cmake -B build && make -C build
+```
+
+Run    
+
+```bash
+build/boolean_simulator
+```
+
+### macOS
+
+Dependencies
+
+```bash
+brew install cmake
+brew install clang
+```
+
+Build
+
+```bash
+cmake -B build && make -C build
+```
+
+Run
+
+```bash
+build/boolean_simulator
+```
+
+### Windows
+
+Use [wsl](https://learn.microsoft.com/en-us/windows/wsl/install) and install via [Linux](#linux)    
+
+Or, you can use your own choice of installation for llvm/gcc and cmake.    
+
+```powershell
+cmake -B build && make -C build
+```
 
 ## Members     
 
