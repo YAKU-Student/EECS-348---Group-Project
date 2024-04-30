@@ -33,8 +33,9 @@ void evaluate_expression(const std::string& expression, auto& history) {
 
 void print_history(const auto& history) {
     std::ranges::for_each(history, [](const auto& expression_result) {
-        std::cout << "Expression: " << expression_result.first << "\nResult: " << expression_result.second << "\n\n";
+        std::cout << "Expression: " << expression_result.first << "\nResult: " << expression_result.second << "\n";
     });
+    std::cout << std::endl;
 }
 
 [[nodiscard]] int program_loop(auto& program_history) {

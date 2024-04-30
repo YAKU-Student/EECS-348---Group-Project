@@ -58,10 +58,8 @@ Result: True!
 Please enter your boolean expression, or enter history to see all prior evaluated expressions (enter exit, quit, or q to exit the program): history
 Expression: T & F
 Result: False!
-
 Expression: T @ F
 Result: True!
-
 Expression: (T | F) $ (F & T)
 Result: True!
 
