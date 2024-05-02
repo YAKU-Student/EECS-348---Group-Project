@@ -35,7 +35,7 @@ This program requires [building from source](#building-from-source). You can dow
 
 ## Start Guide   
 
-Below are examples of general program usage. For a more in-depth look, please look at the User Manual.    
+Below are examples of general program usage. For a more in-depth look, please look at the [User Manual](https://github.com/YAKU-Student/EECS-348---Group-Project/blob/main/doc/06-Users-Manual.pdf).    
 
 ```console
 user@archlinux:~$ boolean_simulator 'T & F'

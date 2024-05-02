@@ -25,7 +25,6 @@ static std::vector<std::string> get_expressions() {
         }
     } else {
         std::cout << "Couldn't find expressions.txt for tests!\n";
-        return expressions;
     }
 
     return expressions;
@@ -50,7 +49,7 @@ void initiate_tests() {
             }
         } catch (const std::exception& error) {
             output_file << "Expression: " << expression << "\nResult:";
-            output_file << error.what() << "\n";
+            output_file << error.what();
         }
     }
 }
