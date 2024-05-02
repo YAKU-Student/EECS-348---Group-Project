@@ -8,11 +8,12 @@ add_executable(boolean_simulator)
 
 target_sources(boolean_simulator PRIVATE
     "src/main.cpp"
+    "src/test.cpp"
     "src/ast.cpp"
     "src/parser.cpp"
 )
 
 #Includes the header files from src
 target_include_directories(boolean_simulator PUBLIC "src")
-
+target_compile_options(boolean_simulator PRIVATE -g)
 #Use this command to build: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build && make -C build

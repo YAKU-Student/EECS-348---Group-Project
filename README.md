@@ -69,9 +69,10 @@ Exiting...
 
 ### Flags
 
-* Without any flags, the program will expect a boolean expression as the input. For example: `boolean_simulator "T & F"`.
-* With the `-c` or `--continuous` flag, the program will run in continuous mode. The user will be prompted for boolean expressions to evaluate until exiting the program by typing `exit`, `quit`, or `q`. Passing in any other arguments along with `-c` will result in an error and the program will not run.
-* With the `-v` or `--version` flag. The program simply displays the version information of the program.    
+- Without any flags, the program will expect a boolean expression as the input. For example: `boolean_simulator "T & F"`
+- With the `-c` or `--continuous` flag, the program will run in continuous mode. The user will be prompted for boolean expressions to evaluate until exiting the program by typing `exit`, `quit`, or `q`. Passing in any other arguments along with `-c` will result in an error and the program will not run.
+- With the `-v` or `--version` flag. The program simply displays the version information of the program.    
+- The flag `-t` or `--test` is mainly intended for developer use. Launching the program in this mode will take a list of expressions from `expressions.txt` and place the results in `results.txt`. The project must be ran from the root of the project directory: `build/boolean_simulator -t`, and `expressions.txt` must be present in the root.
 
 ## Building from source
 

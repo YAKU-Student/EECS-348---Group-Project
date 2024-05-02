@@ -49,8 +49,10 @@ void _rec_destroy(Node* node) {
 
 // Destroy root
 BT::~BT() {
-    _rec_destroy(this->root);
-    this->root = nullptr;
+    if (this->root != nullptr) {
+        _rec_destroy(this->root);
+        this->root = nullptr;
+    }
 }
 
 void _rec_print_post_order(Node* node) {

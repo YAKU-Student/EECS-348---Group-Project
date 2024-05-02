@@ -5,4 +5,8 @@
 **.bak
 **.tmp
 **~
+expressions.txt
+results.txt
 makefile
+/test
+vgcore*

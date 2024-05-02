@@ -2,12 +2,14 @@
 
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "ast.h"
 #include "parser.h"
+#include "test.h"
 #include "version.hpp"
 
 void evaluate_expression(const std::string& expression, auto& history) {
@@ -15,11 +17,11 @@ void evaluate_expression(const std::string& expression, auto& history) {
     try {
         // Create the prefix expression and then build the tree
         const std::string prefix_expression = expression_parser.create_prefix_expression(expression);
-        AST syntax_tree;
-        syntax_tree.build_ast_prefix(prefix_expression);
+        std::unique_ptr<AST> syntax_tree = std::make_unique<AST>();
+        syntax_tree->build_ast_prefix(prefix_expression);
 
         std::cout << "Result: ";
-        if (syntax_tree.evaluate()) {
+        if (syntax_tree->evaluate()) {
             std::cout << "True!\n\n";
             history.emplace_back(std::make_pair(expression, "True!"));
         } else {
@@ -87,6 +89,9 @@ int main(int argc, char* const argv[]) {
     } else if (expression == "-v" || expression == "--version") {
         std::cout << "Version: " << PROGRAM_VERSION_MAJOR << "." << PROGRAM_VERSION_MINOR << "."
                   << PROGRAM_VERSION_PATCH << "\n\n";
+        return 0;
+    } else if (expression == "-t" || expression == "--test") {
+        Test::initiate_tests();
         return 0;
     } else if (expression[0] == '-') {
         std::cerr << "\nError: " << expression << " is an invalid flag.\n";
