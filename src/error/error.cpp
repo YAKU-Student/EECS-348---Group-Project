@@ -1,3 +1,5 @@
+// Author: Caden LeCluyse
+
 #include "error.h"
 
 #include <cctype>
@@ -16,7 +18,7 @@ namespace Error {
 [[nodiscard]] static bool is_not(const char token) noexcept { return token == '!'; }
 
 void check_leading(const std::string_view infix_expression) {
-    for (const char i : infix_expression) {
+    for (const auto i : infix_expression) {
         if (isspace(i)) {
             continue;
         } else if (is_operator(i)) {

@@ -1,3 +1,5 @@
+// Author: Caden LeCluyse
+
 #ifndef ERROR_H
 #define ERROR_H
 

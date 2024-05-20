@@ -6,8 +6,8 @@
 #include <cctype>
 #include <stack>
 #include <stdexcept>
-#include <string_view>
 #include <string>
+#include <string_view>
 
 #include "error/error.h"
 
@@ -19,18 +19,7 @@
 
 [[nodiscard]] bool Parser::is_not(const auto token) const noexcept { return token == '!'; }
 
-[[nodiscard]] std::string Parser::create_prefix_expression(const std::string_view infix_expression) {
-    std::string prefix_expression;
-    m_current_token = '\0';
-    m_previous_token = '\0';
-
-    // Check if the string is only white space
-    if (std::ranges::all_of(infix_expression, isspace)) {
-        throw std::runtime_error("Expression contains only spaces!\n\n");
-    }
-    Error::check_leading(infix_expression);
-    Error::check_trailing(infix_expression);
-
+void Parser::parse(const std::string_view infix_expression, std::string& prefix_expression) {
     // Traverse the string in reverse
     for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
         // Ignore white space
@@ -69,14 +58,36 @@
         }
         m_previous_token = m_current_token;
     }
+}
 
+void Parser::clear_stack(std::string& prefix_expression) {
     while (!m_operator_stack.empty()) {
         if (m_operator_stack.top() == ')') {
+            while (!m_operator_stack.empty()) {
+                m_operator_stack.pop();
+            }
             throw(std::runtime_error("Missing open parentheses!\n\n"));
         }
         prefix_expression.push_back(m_operator_stack.top());
         m_operator_stack.pop();
     }
+}
+
+[[nodiscard]] std::string Parser::create_prefix_expression(const std::string_view infix_expression) {
+    std::string prefix_expression;
+    m_current_token = '\0';
+    m_previous_token = '\0';
+
+    // Check if the string is only white space
+    if (std::ranges::all_of(infix_expression, isspace)) {
+        throw std::runtime_error("Expression contains only spaces!\n\n");
+    }
+    Error::check_leading(infix_expression);
+    Error::check_trailing(infix_expression);
+
+    parse(infix_expression, prefix_expression);
+    clear_stack(prefix_expression);
+
     std::ranges::reverse(prefix_expression);
     return prefix_expression;
 }
