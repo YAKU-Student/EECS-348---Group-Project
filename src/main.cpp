@@ -7,9 +7,9 @@
 #include <utility>
 #include <vector>
 
-#include "ast.h"
-#include "parser.h"
-#include "test.h"
+#include "ast/ast.h"
+#include "parser/parser.h"
+#include "test/test.h"
 #include "version.hpp"
 
 void evaluate_expression(const std::string& expression, auto& history) {
@@ -17,7 +17,7 @@ void evaluate_expression(const std::string& expression, auto& history) {
     try {
         // Create the prefix expression and then build the tree
         const std::string prefix_expression = expression_parser.create_prefix_expression(expression);
-        std::unique_ptr<AST> syntax_tree = std::make_unique<AST>();
+        auto syntax_tree = std::make_unique<AST>();
         syntax_tree->build_ast_prefix(prefix_expression);
 
         std::cout << "Result: ";
