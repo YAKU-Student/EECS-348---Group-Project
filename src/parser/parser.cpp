@@ -10,14 +10,7 @@
 #include <string_view>
 
 #include "error/error.h"
-
-[[nodiscard]] bool Parser::is_operand(const auto token) const noexcept { return (token == 'T' || token == 'F'); }
-
-[[nodiscard]] bool Parser::is_operator(const auto token) const noexcept {
-    return (token == '&' || token == '|' || token == '@' || token == '$');
-}
-
-[[nodiscard]] bool Parser::is_not(const auto token) const noexcept { return token == '!'; }
+#include "types/types.h"
 
 void Parser::parse(const std::string_view infix_expression, std::string& prefix_expression) {
     // Traverse the string in reverse
@@ -37,9 +30,9 @@ void Parser::parse(const std::string_view infix_expression, std::string& prefix_
         // Check for various errors
         Error::error_checker(m_current_token, m_previous_token);
 
-        if (is_operand(m_current_token)) {
+        if (Types::isoperand(m_current_token)) {
             prefix_expression.push_back(m_current_token);
-        } else if (is_not(m_current_token) || is_operator(m_current_token) || m_current_token == ')') {
+        } else if (Types::isnot(m_current_token) || Types::isoperator(m_current_token) || m_current_token == ')') {
             m_operator_stack.push(m_current_token);
         } else if (m_current_token == '(') {
             while (!m_operator_stack.empty() && m_operator_stack.top() != ')') {

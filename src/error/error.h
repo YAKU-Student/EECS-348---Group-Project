@@ -7,9 +7,6 @@
 
 namespace Error {
 
-[[nodiscard]] static bool is_operand(const char token) noexcept;
-[[nodiscard]] static bool is_operator(const char token) noexcept;
-[[nodiscard]] static bool is_not(const char token) noexcept;
 void check_leading(const std::string_view infix_expression);
 void check_trailing(const std::string_view infix_expression);
 static void check_missing_parentheses(const char current_token, const char previous_token);

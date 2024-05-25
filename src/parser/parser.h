@@ -12,9 +12,6 @@ class Parser {
     [[nodiscard]] std::string create_prefix_expression(const std::string_view infix_expression);
 
    private:
-    [[nodiscard]] bool is_operand(const auto token) const noexcept;
-    [[nodiscard]] bool is_operator(const auto token) const noexcept;
-    [[nodiscard]] bool is_not(const auto token) const noexcept;
     void parse(const std::string_view infix_expression, std::string& prefix_expression);
     void clear_stack(std::string& prefix_expression);
     std::stack<char> m_operator_stack;

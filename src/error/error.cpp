@@ -7,21 +7,15 @@
 #include <string>
 #include <string_view>
 
+#include "types/types.h"
+
 namespace Error {
-
-[[nodiscard]] static bool is_operand(const char token) noexcept { return (token == 'T' || token == 'F'); }
-
-[[nodiscard]] static bool is_operator(const char token) noexcept {
-    return (token == '&' || token == '|' || token == '@' || token == '$');
-}
-
-[[nodiscard]] static bool is_not(const char token) noexcept { return token == '!'; }
 
 void check_leading(const std::string_view infix_expression) {
     for (const auto i : infix_expression) {
         if (isspace(i)) {
             continue;
-        } else if (is_operator(i)) {
+        } else if (Types::isoperator(i)) {
             throw std::runtime_error("Expression begins with an operator!\n\n");
         } else if (i == ')') {
             throw std::runtime_error("Expression begins with closed parentheses!\n\n");
@@ -36,9 +30,9 @@ void check_trailing(const std::string_view infix_expression) {
     for (auto itr = infix_expression.rbegin(); itr != infix_expression.rend(); ++itr) {
         if (isspace(*itr)) {
             continue;
-        } else if (is_not(*itr)) {
+        } else if (Types::isnot(*itr)) {
             throw std::runtime_error("Expression ends with NOT!\n\n");
-        } else if (is_operator(*itr)) {
+        } else if (Types::isoperator(*itr)) {
             throw std::runtime_error("Expression ends with an operator!\n\n");
         } else if (*itr == '(') {
             throw std::runtime_error("Expression ends with open parentheses!\n\n");
@@ -55,36 +49,36 @@ static void check_missing_parentheses(const char current_token, const char previ
 }
 
 static void check_consecutive_operands(const char current_token, const char previous_token) {
-    if (is_operator(current_token) && is_operator(previous_token)) {
+    if (Types::isoperator(current_token) && Types::isoperator(previous_token)) {
         throw std::runtime_error("Two consecutive operators detected: " + std::string(1, current_token) + " and " +
                                  std::string(1, previous_token) + "\n\n");
     }
 }
 
 static void check_consecutive_operators(const char current_token, const char previous_token) {
-    if (is_operand(current_token) && is_operand(previous_token)) {
+    if (Types::isoperand(current_token) && Types::isoperand(previous_token)) {
         throw std::runtime_error("Two consecutive operands detected: " + std::string(1, current_token) + " and " +
                                  std::string(1, previous_token) + "\n\n");
     }
 }
 
 static void check_not_after_value(const char current_token, const char previous_token) {
-    if (is_not(current_token) && (is_operator(previous_token) || previous_token == ')')) {
+    if (Types::isnot(current_token) && (Types::isoperator(previous_token) || previous_token == ')')) {
         throw std::runtime_error("NOT applied after value!\n\n");
     }
 }
 
 static void check_missing_operator(const char current_token, const char previous_token) {
-    if ((current_token == ')' && (is_not(previous_token) || is_operand(previous_token))) ||
-        (is_operand(current_token) && (previous_token == '(' || is_not(previous_token))) ||
+    if ((current_token == ')' && (Types::isnot(previous_token) || Types::isoperand(previous_token))) ||
+        (Types::isoperand(current_token) && (previous_token == '(' || Types::isnot(previous_token))) ||
         (current_token == ')' && previous_token == '(')) {
         throw std::runtime_error("Missing operator!\n\n");
     }
 }
 
 static void check_missing_operand(const char current_token, const char previous_token) {
-    if ((current_token == '(' && is_operator(previous_token)) ||
-        (is_operator(current_token) && previous_token == ')')) {
+    if ((current_token == '(' && Types::isoperator(previous_token)) ||
+        (Types::isoperator(current_token) && previous_token == ')')) {
         throw std::runtime_error("Missing an operand!\n\n");
     }
 }

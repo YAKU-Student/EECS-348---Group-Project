@@ -12,16 +12,18 @@ target_sources(boolean_simulator PRIVATE
     "src/error/error.cpp"
     "src/parser/parser.cpp"
     "src/test/test.cpp"
+    "src/types/types.cpp"
 )
 
 #Includes the header files from src
-target_include_directories(boolean_simulator PUBLIC 
+target_include_directories(boolean_simulator PRIVATE 
     "src"
     "src/ast"
     "src/error"
     "src/parser"
     "src/test"
+    "src/types"
 )
 
 target_compile_options(boolean_simulator PRIVATE -O1)
-#Use this command to build: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build && make -C build
+#Use this command to build: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B build && make -C build
