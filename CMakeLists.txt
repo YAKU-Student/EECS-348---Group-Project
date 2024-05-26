@@ -25,5 +25,8 @@ target_include_directories(boolean_simulator PRIVATE
     "src/types"
 )
 
-target_compile_options(boolean_simulator PRIVATE -O1)
+target_compile_options(boolean_simulator PRIVATE
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-O1> # Apply -O1 if the compiler is not MSVC
+    $<$<CXX_COMPILER_ID:MSVC>:/O1>        # Apply /O1 if the compiler is MSVC
+)
 #Use this command to build: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B build && make -C build
